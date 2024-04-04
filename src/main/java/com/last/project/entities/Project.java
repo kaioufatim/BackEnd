@@ -6,6 +6,8 @@ import lombok.Data;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
+@Entity
+@Table(name = "projects")
 @Data
 public class Project {
     @Id
@@ -14,9 +16,12 @@ public class Project {
     private String domaineName;
     private String description;
     private String projectName;
-    @Lob
-    @Column(columnDefinition = "longblob")
-    private  byte[] img;
+//    @Lob
+//    @Column(columnDefinition = "longblob")
+//    private  byte[] img;
+    @Column(columnDefinition = "bytea")
+    private byte[] img;
+
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "user_id")
@@ -25,7 +30,6 @@ public class Project {
 
     public ProjectDto getProjectDto(){
         ProjectDto projectDto =new ProjectDto();
-        projectDto.setId(id);
         projectDto.setDomaineName(domaineName);
         projectDto.setDescription(description);
         projectDto.setCreatorName(user.getName());
