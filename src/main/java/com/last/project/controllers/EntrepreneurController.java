@@ -1,6 +1,7 @@
 package com.last.project.controllers;
 
 import com.last.project.dto.PropositionDto;
+import com.last.project.dto.ReviewDto;
 import com.last.project.services.entrepreneurService.EntrepreneurService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -37,4 +38,20 @@ public class EntrepreneurController {
     public ResponseEntity<?> getDetailsByProjectId(@PathVariable Long projectId){
         return ResponseEntity.ok(entrepreneurService.getPrjectDetailsById(projectId));
     }
+
+    @GetMapping("/my-propositions/{userId}")
+    public ResponseEntity<?> getAllPropositionsByUserId(@PathVariable Long userId){
+        return ResponseEntity.ok(entrepreneurService.getAllPrppositionByUserId(userId));
+    }
+    @PostMapping("/review")
+    public ResponseEntity<?> giveReview(@RequestBody ReviewDto reviewDto){
+        Boolean success = entrepreneurService.giveReview(reviewDto);
+        if(success){
+            return ResponseEntity.status(HttpStatus.OK).build();
+        }else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+    }
+
+
 }

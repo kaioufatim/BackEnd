@@ -5,6 +5,7 @@ import com.last.project.dto.PropositionDto;
 import com.last.project.entities.Project;
 import com.last.project.entities.Proposition;
 import com.last.project.entities.User;
+import com.last.project.enums.PropositionStatus;
 import com.last.project.repositories.ProjectRepository;
 import com.last.project.repositories.PropositionRepository;
 import com.last.project.repositories.UserRepository;
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Service;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -76,9 +78,26 @@ public class CreateurServiceImp implements CreateurService{
             return false;
         }
     }
-    public List<PropositionDto> getAllProposition(Long createurId){
+    public List<PropositionDto> getAllPropositions(Long createurId){
         return propositionRepository.findAllByCreateurId(createurId).stream().map(Proposition::getPropositionDto).collect(Collectors.toList());
     }
+
+    public boolean changePropositionStatus(Long propositionId, String status){
+        Optional<Proposition> optionalProposition = propositionRepository.findById(propositionId);
+        if (optionalProposition.isPresent()){
+            Proposition existedProposition = optionalProposition.get();
+            if(Objects.equals(status,"Approve")){
+                existedProposition.setPropositionStatus(PropositionStatus.APPROVED);
+            }else {
+                existedProposition.setPropositionStatus(PropositionStatus.REJECTED);
+            }
+            propositionRepository.save(existedProposition);
+            return true;
+    }
+        return false;
+
+    }
+
 
 
 }

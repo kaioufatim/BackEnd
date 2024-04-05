@@ -13,7 +13,8 @@ public interface CreateurService {
      ProjectDto getProjById(Long projectId);
      boolean updateProject(Long projectId,ProjectDto projectDto) throws IOException ;
      boolean deleteProject(Long projectId);
-     List<PropositionDto> getAllProposition(Long createurId);
+     List<PropositionDto> getAllPropositions(Long createurId);
+     boolean changePropositionStatus(Long propositionId, String status);
 
 
 
