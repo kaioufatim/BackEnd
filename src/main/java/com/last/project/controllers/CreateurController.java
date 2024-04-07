@@ -31,7 +31,7 @@ public class CreateurController {
 
     }
 
-    @GetMapping("/project/{userId}")
+    @GetMapping("/project/{projectId}")
 
     public ResponseEntity<?> getProjectById(@PathVariable Long projectId){
         ProjectDto projectDto = createurService.getProjById(projectId);

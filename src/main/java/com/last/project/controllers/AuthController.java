@@ -15,10 +15,10 @@ import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.userdetails.UserDetails;
+//import org.springframework.security.authentication.AuthenticationManager;
+//import org.springframework.security.authentication.BadCredentialsException;
+//import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+//import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -34,14 +34,14 @@ public class AuthController {
     private UserRepository userRepository;
 
     @Autowired
-    private AuthenticationManager authenticationManager;
+   // private AuthenticationManager authenticationManager;
     public static final String TOKEN_PREFIX ="Bearer ";
     public static final String HEADER_STRING ="Authorization";
 
 
 
     @PostMapping("/createur/signUp")
-    public ResponseEntity<?>signupCreateur(@RequestBody SignUpRequest signUpRequestDTO){
+    public ResponseEntity<?>signupCreateur(@RequestBody SignUpRequestDTO signUpRequestDTO){
         if(authService.existParEmail(signUpRequestDTO.getEmail())){
             return new ResponseEntity<>("Createur deja exist avec cet email", HttpStatus.NOT_ACCEPTABLE);
         }

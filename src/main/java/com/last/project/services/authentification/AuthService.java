@@ -9,6 +9,6 @@ public interface AuthService {
     Boolean existParEmail(String email);
     //UserDto signupEntrepreneur(SignUpRequestDTO signUpRequestDTO);
      UserDto signupEntrepreneur(SignUpRequestDTO signUpRequest) ;
-     UserDto signupCreateur(SignUpRequest signUpRequestDTO);
+     UserDto signupCreateur(SignUpRequestDTO signUpRequestDTO);
 
 }
