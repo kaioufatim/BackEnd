@@ -1,11 +1,11 @@
 package com.last.project.entities;
 
 import com.last.project.dto.ReviewDto;
-import jakarta.persistence.*;
 import lombok.Data;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
+import javax.persistence.*;
 import java.util.Date;
 
 @Entity

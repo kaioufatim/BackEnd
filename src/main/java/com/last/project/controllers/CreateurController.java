@@ -5,7 +5,6 @@ import com.last.project.dto.PropositionDto;
 import com.last.project.services.createur.CreateurService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 

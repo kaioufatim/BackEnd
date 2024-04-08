@@ -3,11 +3,11 @@ package com.last.project.entities;
 import com.last.project.dto.PropositionDto;
 import com.last.project.enums.PropositionStatus;
 import com.last.project.enums.ReviewStatus;
-import jakarta.persistence.*;
 import lombok.Data;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
+import javax.persistence.*;
 import java.util.Date;
 
 @Data

@@ -1,10 +1,12 @@
 package com.last.project.entities;
 
 import com.last.project.dto.ProjectDto;
-import jakarta.persistence.*;
 import lombok.Data;
+
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
+
+import javax.persistence.*;
 
 @Entity
 @Table(name = "projects")

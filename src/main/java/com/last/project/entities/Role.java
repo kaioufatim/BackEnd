@@ -2,11 +2,11 @@ package com.last.project.entities;
 
 import com.last.project.enums.ERole;
 import com.last.project.enums.UserRole;
-import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.persistence.*;
 import java.util.List;
 
 @Entity
@@ -20,8 +20,11 @@ public class Role {
     private Long id;
     @Enumerated(EnumType.STRING)
     @Column(length = 20)
-    private UserRole name;
+    private UserRole name1;
 
+    @Enumerated(EnumType.STRING)
+    @Column(length = 20)
+    private ERole name;
 
 
 }
