@@ -32,8 +32,9 @@ public class CreateurServiceImp implements CreateurService{
         Optional<User> optionalUser = userRepository.findById(userId);
         if(optionalUser.isPresent()){
             Project project= new Project();
-            project.setDomaineName(project.getDomaineName());
+            project.setDomaineName(projectDto.getDomaineName());
             project.setDescription(projectDto.getDescription());
+            project.setProjectName(projectDto.getProjectName());
             project.setImg(projectDto.getImg().getBytes());
             project.setUser(optionalUser.get());
             projectRepository.save(project);

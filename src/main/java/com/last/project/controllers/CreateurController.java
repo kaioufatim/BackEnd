@@ -16,7 +16,7 @@ import java.util.List;
 public class CreateurController {
     @Autowired
     private CreateurService createurService;
-    @PostMapping("/projet/{userId}")
+    @PostMapping("/project/{userId}")
     public ResponseEntity<?> postProject(@PathVariable Long userId, @ModelAttribute ProjectDto projectDto) throws IOException {
         boolean success = createurService.postProject(userId,projectDto);
         if (success){
