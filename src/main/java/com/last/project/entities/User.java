@@ -1,13 +1,10 @@
 package com.last.project.entities;
 
 import com.last.project.dto.UserDto;
-import com.last.project.enums.ERole;
-import com.last.project.enums.UserRole;
-import com.last.project.repositories.RoleRepository;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.persistence.*;
 import java.util.HashSet;
@@ -22,36 +19,55 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String email;
-    private String password;
-    private String name;
+
+    @Column(name = "username")
     private String username;
 
-    private String lastname;
-    private String phone;
+    @Column(name = "email")
+    private String email;
 
-    //private UserRole role;
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "role_id")
-    private Role role;
+    @Column(name = "password")
+    private String password;
+
+//    @Column(name = "name")
+    private String name;
+//
+//    private String lastname;
+//    private String phone;
+
     @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(  name = "user_roles",
+    @JoinTable(name = "user_roles",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles = new HashSet<>();
 
+    // Constructor with specific parameters
+    public User(String username, String email, String password, String name, String lastname, String phone) {
+        this.username = username;
+        this.email = email;
+        this.password = password;
+//        this.name = name;
+//        this.lastname = lastname;
+//        this.phone = phone;
+        // Initialize roles as necessary
+    }
+
+
     public UserDto getDto(){
             UserDto userDto = new UserDto();
 
-            userDto.setName(name);
+      //      userDto.setName(name);
             userDto.setEmail(email);
 //            userDto.setRole(role);
             return userDto;
         }
-    public User(String email, String password, String name) {
+    public User(String username, String email, String password) {
+        this.username = username;
+
         this.email = email;
         this.password = password;
-        this.name = name;
         // Initialize other fields as necessary
     }
+
+
 }
