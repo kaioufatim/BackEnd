@@ -43,6 +43,7 @@ public class CreateurServiceImp implements CreateurService{
         return false;
     }
 
+
     public List<ProjectDto> getAllProject(Long userId){
         return projectRepository.findAllByUserId(userId).stream().map(Project :: getProjectDto).collect(Collectors.toList());
     }
@@ -80,7 +81,9 @@ public class CreateurServiceImp implements CreateurService{
         }
     }
     public List<PropositionDto> getAllPropositions(Long createurId){
-        return propositionRepository.findAllByCreateurId(createurId).stream().map(Proposition::getPropositionDto).collect(Collectors.toList());
+        return propositionRepository.findAllByCreateurId(createurId)
+                .stream().map(Proposition::getPropositionDto)
+                .collect(Collectors.toList());
     }
 
     public boolean changePropositionStatus(Long propositionId, String status){

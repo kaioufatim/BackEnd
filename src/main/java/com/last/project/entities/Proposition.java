@@ -35,16 +35,22 @@ public class Proposition {
 
     public PropositionDto getPropositionDto(){
         PropositionDto propositionDto=new PropositionDto();
+
         propositionDto.setId(id);
         propositionDto.setProjectName(project.getProjectName());
         propositionDto.setPropositionDate(propositionDate);
         propositionDto.setPropositionStatus(propositionStatus);
+
+        propositionDto.setReviewStatus(reviewStatus);
+
         propositionDto.setProjectId(project.getId());
+
         propositionDto.setCreateurId(createur.getId());
-        propositionDto.setUserName(user.getName());
+        propositionDto.setUserName(user.getUsername());
         return propositionDto;
 
     }
+
 
 
 }

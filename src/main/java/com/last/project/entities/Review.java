@@ -36,7 +36,7 @@ public class Review {
         reviewDto.setRating(rating);
         reviewDto.setReviewDate(reviewDate);
         reviewDto.setUserId(user.getId());
-        reviewDto.setEntrepreneurName(user.getName());
+        reviewDto.setEntrepreneurName(user.getUsername());
         reviewDto.setProjectId(project.getId());
         reviewDto.setProjectName(project.getProjectName());
         return reviewDto;

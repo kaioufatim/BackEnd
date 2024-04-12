@@ -32,8 +32,7 @@ public class Project {
     @JoinColumn(name = "user_id")
     @OnDelete(action = OnDeleteAction.CASCADE)
     private User user;
-
-//    public ProjectDto getProjectDto(){
+    //    public ProjectDto getProjectDto(){
 //        ProjectDto projectDto =new ProjectDto();
 //        projectDto.setDomaineName(domaineName);
 //        projectDto.setDescription(description);
