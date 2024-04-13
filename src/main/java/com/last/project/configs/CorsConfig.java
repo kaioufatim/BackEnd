@@ -12,9 +12,9 @@ import java.util.Map;
 
 @Component
 @Order(Ordered.HIGHEST_PRECEDENCE)
-public class CorsCongig implements Filter {
+public class CorsConfig implements Filter {
 
-    public CorsCongig(){
+    public CorsConfig(){
 
     }
 
