@@ -25,6 +25,8 @@ public class UserDetailsImpl implements UserDetails {
 
     @JsonIgnore
     private String password;
+    private Boolean locked = false;
+    private Boolean enabled = false;
 
     private Collection<? extends GrantedAuthority> authorities;
 
@@ -90,7 +92,7 @@ public class UserDetailsImpl implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return true;
+        return true ;
     }
 
     @Override

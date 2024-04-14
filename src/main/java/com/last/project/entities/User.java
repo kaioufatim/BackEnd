@@ -28,8 +28,15 @@ public class User {
 
     @Column(name = "password")
     private String password;
+    private Boolean locked = false;
+    private Boolean enabled = false;
 
 //    @Column(name = "name")
+    public Boolean isEnabled() {
+        return this.enabled;
+    }
+
+
     private String name;
 //
 //    private String lastname;
