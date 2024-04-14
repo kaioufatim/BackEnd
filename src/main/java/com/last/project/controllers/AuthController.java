@@ -196,74 +196,74 @@ public class AuthController {
 //
 //        return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
 //    }
-@PostMapping("/signup")
-public ResponseEntity<?> registerUser(@Valid @RequestBody SignUpRequest signUpRequest) {
-    // Vérifie si le nom d'utilisateur est déjà pris
-    if (userRepository.existsByUsername(signUpRequest.getUsername())) {
-        return ResponseEntity
-                .badRequest()
-                .body(new MessageResponse("Error: Username is already taken!"));
-    }
-
-    // Vérifie si l'e-mail est déjà utilisé
-    if (userRepository.existsByEmail(signUpRequest.getEmail())) {
-        return ResponseEntity
-                .badRequest()
-                .body(new MessageResponse("Error: Email is already in use!"));
-    }
-    System.out.println("Password before encoding: " + signUpRequest.getPassword());
-    String encodedPassword = encoder.encode(signUpRequest.getPassword());
-    System.out.println("Password after encoding: " + encodedPassword);
-    // Crée un nouvel utilisateur
-    User user = new User(signUpRequest.getUsername(),
-            signUpRequest.getEmail(),
-            encodedPassword);
-
-
-    // Définit les rôles de l'utilisateur
-    Set<String> strRoles = signUpRequest.getRole();
-    Set<Role> roles = new HashSet<>();
-
-    // Gestion des rôles
-    if (strRoles == null) {
-        Role userRole = roleRepository.findByName(ERole.ROLE_ENTREPRENEUR)
-                .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-        roles.add(userRole);
-    } else {
-        strRoles.forEach(role -> {
-            switch (role) {
-                case "ROLE_CREATEUR":
-                    Role adminRole = roleRepository.findByName(ERole.ROLE_CREATEUR)
-                            .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-                    roles.add(adminRole);
-                    break;
-                default:
-                    Role userRole = roleRepository.findByName(ERole.ROLE_ENTREPRENEUR)
-                            .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-                    roles.add(userRole);
-            }
-        });
-    }
-
-    user.setRoles(roles);
-
-    // Enregistre l'utilisateur dans la base de données
-    userRepository.save(user);
-
-    // Génère un token de confirmation d'e-mail unique
-    String token = UUID.randomUUID().toString();
-
-    // Crée un nouvel objet ConfirmationToken et l'associe à l'utilisateur
-    ConfirmationToken confirmationToken = new ConfirmationToken(token, user);
-
-    // Sauvegarde le token dans la base de données
-    confirmationTokenRepository.save(confirmationToken);
-
-    // Envoie un e-mail de confirmation à l'utilisateur
-    String confirmationLink = "http://localhost:8080/api/v1/confirm-account?token=" + token;
-    emailSender.send(user.getEmail(), "Confirmation de votre compte", "Veuillez cliquer sur le lien suivant pour confirmer votre compte : " + confirmationLink);
-
-    return ResponseEntity.ok(new MessageResponse("User registered successfully! Check your email for confirmation."));
-}
+//@PostMapping("/signup")
+//public ResponseEntity<?> registerUser(@Valid @RequestBody SignUpRequest signUpRequest) {
+//    // Vérifie si le nom d'utilisateur est déjà pris
+//    if (userRepository.existsByUsername(signUpRequest.getUsername())) {
+//        return ResponseEntity
+//                .badRequest()
+//                .body(new MessageResponse("Error: Username is already taken!"));
+//    }
+//
+//    // Vérifie si l'e-mail est déjà utilisé
+//    if (userRepository.existsByEmail(signUpRequest.getEmail())) {
+//        return ResponseEntity
+//                .badRequest()
+//                .body(new MessageResponse("Error: Email is already in use!"));
+//    }
+//    System.out.println("Password before encoding: " + signUpRequest.getPassword());
+//    String encodedPassword = encoder.encode(signUpRequest.getPassword());
+//    System.out.println("Password after encoding: " + encodedPassword);
+//    // Crée un nouvel utilisateur
+//    User user = new User(signUpRequest.getUsername(),
+//            signUpRequest.getEmail(),
+//            encodedPassword);
+//
+//
+//    // Définit les rôles de l'utilisateur
+//    Set<String> strRoles = signUpRequest.getRole();
+//    Set<Role> roles = new HashSet<>();
+//
+//    // Gestion des rôles
+//    if (strRoles == null) {
+//        Role userRole = roleRepository.findByName(ERole.ROLE_ENTREPRENEUR)
+//                .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+//        roles.add(userRole);
+//    } else {
+//        strRoles.forEach(role -> {
+//            switch (role) {
+//                case "ROLE_CREATEUR":
+//                    Role adminRole = roleRepository.findByName(ERole.ROLE_CREATEUR)
+//                            .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+//                    roles.add(adminRole);
+//                    break;
+//                default:
+//                    Role userRole = roleRepository.findByName(ERole.ROLE_ENTREPRENEUR)
+//                            .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+//                    roles.add(userRole);
+//            }
+//        });
+//    }
+//
+//    user.setRoles(roles);
+//
+//    // Enregistre l'utilisateur dans la base de données
+//    userRepository.save(user);
+//
+//    // Génère un token de confirmation d'e-mail unique
+//    String token = UUID.randomUUID().toString();
+//
+//    // Crée un nouvel objet ConfirmationToken et l'associe à l'utilisateur
+//    ConfirmationToken confirmationToken = new ConfirmationToken(token, user);
+//
+//    // Sauvegarde le token dans la base de données
+//    confirmationTokenRepository.save(confirmationToken);
+//
+//    // Envoie un e-mail de confirmation à l'utilisateur
+//    String confirmationLink = "http://localhost:8080/api/v1/confirm-account?token=" + token;
+//    emailSender.send(user.getEmail(), "Confirmation de votre compte", "Veuillez cliquer sur le lien suivant pour confirmer votre compte : " + confirmationLink);
+//
+//    return ResponseEntity.ok(new MessageResponse("User registered successfully! Check your email for confirmation."));
+//}
 
 }

@@ -1,11 +1,13 @@
 package com.last.project.registration;
 
-import lombok.AllArgsConstructor;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.ToString;
+import com.last.project.entities.Role;
+import lombok.*;
 
-@Getter
+import java.util.HashSet;
+import java.util.Set;
+
+
+@Data
 @AllArgsConstructor
 @EqualsAndHashCode
 @ToString
@@ -14,4 +16,6 @@ public class RegistrationRequest {
     private final String lastName;
     private final String email;
     private final String password;
+//    private Set<Role> roles = new HashSet<>();
+//
 }

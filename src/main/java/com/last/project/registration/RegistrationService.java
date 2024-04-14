@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -31,26 +32,29 @@ public class RegistrationService {
     @Autowired
     PasswordEncoder encoder;
 
-    public String register(User user) {
-                boolean isValidEmail = emailValidator.
-                test(user.getEmail());
+    public String register(RegistrationRequest registrationRequest) {
+        boolean isValidEmail = emailValidator.
+                test(registrationRequest.getEmail());
 
         if (!isValidEmail) {
-            throw new IllegalStateException("email not valid");
+            throw new IllegalStateException("email non valide");
         }
-        boolean userExists = userRepository.findByEmail(user.getEmail()).isPresent();
+
+        boolean userExists = userRepository.findByEmail(registrationRequest.getEmail()).isPresent();
 
         if (userExists) {
             throw new IllegalStateException("Email déjà utilisé. Veuillez choisir un autre email.");
         }
-        user.setPassword(encoder.encode(user.getPassword()));
 
-        // Récupérer le rôle ROLE_CREATEUR depuis la base de données
-        Role createurRole = roleRepository.findByName(ERole.ROLE_CREATEUR)
-                .orElseThrow(() -> new RuntimeException("Le rôle ROLE_CREATEUR n'existe pas."));
+        String encodedPassword = encoder.encode(registrationRequest.getPassword());
 
-        // Ajouter le rôle ROLE_CREATEUR à l'utilisateur
-        user.getRoles().add(createurRole);
+        // Créer un nouvel utilisateur avec les détails de la demande d'inscription
+        User user = new User(registrationRequest.getFirstName(), registrationRequest.getEmail(), encodedPassword);
+
+        Optional<Role> roleOptional = roleRepository.findByName(ERole.ROLE_CREATEUR);
+        Role creatorRole = roleOptional.orElseThrow(() -> new RuntimeException("Le rôle ROLE_ENTREPRENEUR n'existe pas."));
+        user.getRoles().add(creatorRole);
+
 
         // Enregistrer l'utilisateur dans la base de données avec le rôle associé
         userRepository.save(user);
@@ -74,37 +78,51 @@ public class RegistrationService {
         return token;
     }
 
+    public String registerEntrepreneur(RegistrationRequest registrationRequest) {
+        boolean isValidEmail = emailValidator.
+                test(registrationRequest.getEmail());
+
+        if (!isValidEmail) {
+            throw new IllegalStateException("email non valide");
+        }
+
+        boolean userExists = userRepository.findByEmail(registrationRequest.getEmail()).isPresent();
+
+        if (userExists) {
+            throw new IllegalStateException("Email déjà utilisé. Veuillez choisir un autre email.");
+        }
+
+        String encodedPassword = encoder.encode(registrationRequest.getPassword());
+
+        // Créer un nouvel utilisateur avec les détails de la demande d'inscription
+        User user = new User(registrationRequest.getFirstName(), registrationRequest.getEmail(), encodedPassword);
+
+        Optional<Role> roleOptional = roleRepository.findByName(ERole.ROLE_ENTREPRENEUR);
+        Role entrepreneurRole = roleOptional.orElseThrow(() -> new RuntimeException("Le rôle ROLE_ENTREPRENEUR n'existe pas."));
+        user.getRoles().add(entrepreneurRole);
 
 
-//    public String register(RegistrationRequest request) {
-//        boolean isValidEmail = emailValidator.
-//                test(request.getEmail());
-//
-//        if (!isValidEmail) {
-//            throw new IllegalStateException("email not valid");
-//        }
-//
-//        String token = appUserService.signUpUser(
-//                new User(
-//                        request.getFirstName(),
-//                        request.getLastName(),
-//                        request.getEmail(),
-//                        request.getPassword(),
-//
-//                       AppUserRole.USER
-//
-//                )
-//        );
-//
-//        String link = "http://localhost:8080/api/v1/registration/confirm?token=" + token;
-//        emailSender.send(
-//                request.getEmail(),
-//                buildEmail(request.getFirstName(), link));
-//
-//        return token;
-//    }
+        // Enregistrer l'utilisateur dans la base de données avec le rôle associé
+        userRepository.save(user);
 
+        // Générer et retourner le jeton d'activation
+        String token = UUID.randomUUID().toString();
+        ConfirmationToken confirmationToken = new ConfirmationToken(
+                token,
+                LocalDateTime.now(),
+                LocalDateTime.now().plusMinutes(15),
+                user
+        );
+        confirmationTokenService.saveConfirmationToken(confirmationToken);
 
+        // Envoyer l'email de confirmation
+        String link = "http://localhost:8080/api/v1/registration/confirm?token=" + token;
+        emailSender.send(
+                user.getEmail(),
+                buildEmail(user.getUsername(), link), "Veuillez cliquer sur le lien suivant pour confirmer votre compte : " + link);
+
+        return token;
+    }
 
 
 

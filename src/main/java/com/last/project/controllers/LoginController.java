@@ -44,53 +44,7 @@ public class LoginController {
     @Autowired
     JwtUtils jwtUtils;
 
-    @PostMapping("/signin")
-    public ResponseEntity<?> authenticateUser( @RequestBody LoginRequest loginRequest) {
 
-        Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
-
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-        String jwt = jwtUtils.generateJwtToken(authentication);
-
-        UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
-        List<String> roles = userDetails.getAuthorities().stream()
-                .map(item -> item.getAuthority())
-                .collect(Collectors.toList());
-
-        return ResponseEntity.ok(new JwtResponse(jwt,
-                userDetails.getId(),
-                userDetails.getUsername(),
-                userDetails.getEmail(),
-                roles));
-    }
-//    @PostMapping("/login")
-//    public ResponseEntity<?> authenticate( @RequestBody LoginRequest loginRequest) {
-//
-//        Authentication authentication = authenticationManager.authenticate(
-//                new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
-//
-//        SecurityContextHolder.getContext().setAuthentication(authentication);
-//        String jwt = jwtUtils.generateJwtToken(authentication);
-//
-//        UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
-//
-//        // Vérification de l'activation du compte utilisateur
-//        if (userRepository..isEnabled()) {
-//            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-//                    .body("Votre compte n'est pas activé. Veuillez vérifier votre email pour activer votre compte.");
-//        }
-//
-//        List<String> roles = userDetails.getAuthorities().stream()
-//                .map(item -> item.getAuthority())
-//                .collect(Collectors.toList());
-//
-//        return ResponseEntity.ok(new JwtResponse(jwt,
-//                userDetails.getId(),
-//                userDetails.getUsername(),
-//                userDetails.getEmail(),
-//                roles));
-//    }
 @PostMapping("/login")
 public ResponseEntity<?> authenticate(@RequestBody LoginRequest loginRequest) {
 
