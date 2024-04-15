@@ -28,7 +28,7 @@ tools {
          stage('Construction de l\'image Docker') {
                     steps {
                         script {
-                            bat 'docker build -t last/project-1.0 .'
+                            bat ' docker build -t projectimage .'
                         }
                     }
          }
