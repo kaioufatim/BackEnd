@@ -25,5 +25,25 @@ tools {
 
                       }
         }
+         stage('Construction de l\'image Docker') {
+                    steps {
+                        script {
+                            bat 'docker build -t last/project-1.0 .'
+                        }
+                    }
+         }
+          stage('Deploy Docker Image') {
+                     steps {
+                         script {
+                             withCredentials([string(credentialsId: 'dockerhubpwd', variable: 'dockerHub')]) {
+                             bat 'docker login -u kaioufatimazahra@gmail.com -p ${dockerhubpwd}'
+                             }
+
+                          bat 'docker push kaioufatimazahra@gmail.com/project-1.0'
+                         }
+                     }
+                 }
+
+
   }
 }
