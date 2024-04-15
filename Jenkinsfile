@@ -28,7 +28,7 @@ tools {
          stage('Construction de l\'image Docker') {
                     steps {
                         script {
-                            bat ' docker build -t projectimage .'
+                            bat 'docker build -t projectimage:1.0.0 .'
                         }
                     }
          }
@@ -39,7 +39,7 @@ tools {
                              bat 'docker login -u kaioufatimazahra@gmail.com -p ${dockerhubpwd}'
                              }
 
-                          bat 'docker push kaioufatimazahra@gmail.com/project-1.0'
+                            bat 'docker push kaioufatimazahra@gmail.com/projectimage:1.0.0'
                          }
                      }
                  }
